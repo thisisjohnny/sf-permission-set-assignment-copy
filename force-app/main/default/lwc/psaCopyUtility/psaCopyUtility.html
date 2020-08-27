@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Copy Permission Set Assignments" icon-name="standard:assignment">
+        <lightning-input
+            type="text"
+            label="Assign From Username"
+            name="assignFromUsername"
+            placeholder="myuser@example.demo"
+            value={assignFromUsername}
+            onchange={handleOnChange}
+            class="slds-p-around_small">
+        </lightning-input>
+        <lightning-input
+            type="text"
+            label="Assign To Username"
+            name="assignToUsername"
+            placeholder="newuser@example.demo"
+            value={assignToUsername}
+            onchange={handleOnChange}
+            class="slds-p-around_small">
+        </lightning-input>
+        <lightning-button label="Cancel" onclick={handleOnCancel} class="slds-p-around_small"></lightning-button>
+        <lightning-button variant="brand" label="Copy Permission Sets" onclick={handleOnClick} class="slds-p-around_small"></lightning-button>
+    </lightning-card>
+</template>
