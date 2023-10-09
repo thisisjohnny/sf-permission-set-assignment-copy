@@ -1,11 +1,17 @@
 import { LightningElement, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import assignPermissionSets from '@salesforce/apex/permissionSetAssignmentCopy.assignPermissionSets';
+import search from '@salesforce/apex/permissionSetAssignmentCopy.search';
+import canRunPermissionSetCopy from '@salesforce/customPermission/Can_Run_Permission_Set_Copy';
 
 export default class PsaCopyUtility extends LightningElement {
     assignFromUsername = null;
     assignToUsername = null;
     @track permissionSets;
+
+    get userMissingPermissions() {
+        return canRunPermissionSetCopy ? false : true;
+    }
 
     handleOnChange(event) {
         let inputField = event.target.name;
@@ -45,5 +51,20 @@ export default class PsaCopyUtility extends LightningElement {
     handleOnCancel() {
         this.assignFromUsername = null;
         this.assignToUsername = null;
+    }
+
+    handleLookupSearch(event) {
+        const searchElement = event.target;
+        search(event.detail)
+            .then((results) => {
+                searchElement.setSearchResults(results);
+            })
+            .catch((error) => {
+                console.error('Search error', JSON.stringify(error));
+            });
+    }
+
+    handleLookupSelectionChange(event) {
+        
     }
 }

@@ -21,4 +21,21 @@ public with sharing class permissionSetAssignmentCopy {
 
         return [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE AssigneeId = :assignToId];
     }
+
+    @AuraEnabled(cacheable=true scope='global')
+    public static List<User> search(String searchTerm){
+        // append * wildcard to search for SOSL query
+        searchTerm += '*';
+
+        try {
+            // execute search
+            List<List<Sobject>> searchResults = [FIND :searchTerm IN ALL FIELDS RETURNING User(Id, Name, Email) LIMIT 3];
+            List<User> userList = (List<User>) searchResults[0];
+
+            // return results
+            return userList;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }

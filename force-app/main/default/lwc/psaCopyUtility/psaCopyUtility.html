@@ -7,7 +7,7 @@
             placeholder="myuser@example.demo"
             value={assignFromUsername}
             onchange={handleOnChange}
-            class="slds-p-around_small">
+            class="slds-var-p-around_small">
         </lightning-input>
         <lightning-input
             type="text"
@@ -16,9 +16,19 @@
             placeholder="newuser@example.demo"
             value={assignToUsername}
             onchange={handleOnChange}
-            class="slds-p-around_small">
+            class="slds-var-p-around_small">
         </lightning-input>
-        <lightning-button label="Cancel" onclick={handleOnCancel} class="slds-p-around_small"></lightning-button>
-        <lightning-button variant="brand" label="Copy Permission Sets" onclick={handleOnClick} class="slds-p-around_small"></lightning-button>
+
+        <lightning-button label="Cancel" onclick={handleOnCancel} class="slds-var-p-around_small"></lightning-button>
+        <lightning-button variant="brand" label="Copy Permission Sets" disabled={userMissingPermissions} onclick={handleOnClick} class="slds-var-p-around_small"></lightning-button>
+        
+        <template lwc:if={userMissingPermissions}>
+            <div class="slds-var-p-top_small">
+                <div class="slds-notify slds-notify_alert" role="alert">
+                    <span class="slds-assistive-text">info</span>
+                    <h2>Current running user does not have access to the Apex controller for this LWC. Add Permission Set Assignment Copy perm set to user first.</h2>
+                </div>
+            </div>
+        </template>
     </lightning-card>
 </template>

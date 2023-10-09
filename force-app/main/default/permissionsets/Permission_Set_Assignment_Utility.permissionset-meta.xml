@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>permissionSetAssignmentCopy</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <description>Includes Apex permissions for AuraEnabled method required for use by the Permission Set Assignment Copy Utility LWC</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Permission Set Assignment Utility</label>
+</PermissionSet>
