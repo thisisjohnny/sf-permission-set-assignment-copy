@@ -4,7 +4,11 @@
         <apexClass>permissionSetAssignmentCopy</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <description>Includes Apex permissions for AuraEnabled method required for use by the Permission Set Assignment Copy Utility LWC</description>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Can_Run_Permission_Set_Copy</name>
+    </customPermissions>
+    <description>Includes Apex permissions for AuraEnabled methods required for use by the Permission Set Assignment Copy Utility LWC</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Permission Set Assignment Utility</label>
 </PermissionSet>

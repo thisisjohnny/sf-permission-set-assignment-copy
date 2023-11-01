@@ -1,31 +1,40 @@
 import { LightningElement, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import assignPermissionSets from '@salesforce/apex/permissionSetAssignmentCopy.assignPermissionSets';
-import search from '@salesforce/apex/permissionSetAssignmentCopy.search';
+import apexSearch from '@salesforce/apex/permissionSetAssignmentCopy.search';
 import canRunPermissionSetCopy from '@salesforce/customPermission/Can_Run_Permission_Set_Copy';
 
 export default class PsaCopyUtility extends LightningElement {
-    assignFromUsername = null;
-    assignToUsername = null;
+    assignFromUserIds = null;
+    assignToUserIds = null;
     @track permissionSets;
 
     get userMissingPermissions() {
         return canRunPermissionSetCopy ? false : true;
     }
 
-    handleOnChange(event) {
-        let inputField = event.target.name;
-        if (inputField == 'assignFromUsername') {
-            this.assignFromUsername = event.target.value;
-        } else if (inputField == 'assignToUsername') {
-            this.assignToUsername = event.target.value;
-        } else {
-            console.log('Field: ' + inputField + '; Value: ' + event.target.value);
-        }
+    handleSearch(event) {
+        const lookupElement = event.target;
+        apexSearch(event.detail)
+        .then(results => {
+            lookupElement.setSearchResults(results);
+        })
+        .catch(error => {
+            // TODO: handle error
+        });
     }
 
-    handleOnClick(event) {
-        assignPermissionSets({ assignFromUsername: this.assignFromUsername, assignToUsername: this.assignToUsername})
+    handleFromSelectionChange(event) {
+        this.assignFromUserIds = event.detail;
+        console.log('JAWN ' + this.assignFromUserIds + '; Type: ' + typeof this.assignFromUserIds);
+    }
+
+    handleToSelectionChange(event) {
+        this.assignToUserIds = event.detail;
+    }
+
+    handleCopy(event) {
+        assignPermissionSets({ assignFromUsername: this.assignFromUserId, assignToUsername: this.assignToUsername})
             .then(result => {
                 this.permissionSets = result;
                 this.dispatchEvent(
@@ -53,18 +62,4 @@ export default class PsaCopyUtility extends LightningElement {
         this.assignToUsername = null;
     }
 
-    handleLookupSearch(event) {
-        const searchElement = event.target;
-        search(event.detail)
-            .then((results) => {
-                searchElement.setSearchResults(results);
-            })
-            .catch((error) => {
-                console.error('Search error', JSON.stringify(error));
-            });
-    }
-
-    handleLookupSelectionChange(event) {
-        
-    }
 }

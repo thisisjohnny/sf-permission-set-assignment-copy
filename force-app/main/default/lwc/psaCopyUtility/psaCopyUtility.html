@@ -1,5 +1,18 @@
 <template>
     <lightning-card title="Copy Permission Set Assignments" icon-name="standard:assignment">
+        <div class="slds-var-p-around_small">
+            <c-lookup
+                onsearch={handleSearch} onselectionchange={handleFromSelectionChange} label="Assign From User" placeholder="Search User" name="assignFromUser">
+            </c-lookup>
+        </div>
+
+        <div class="slds-var-p-left_small slds-var-p-right_small slds-var-p-right_small">
+            <c-lookup
+                onsearch={handleSearch} onselectionchange={handleToSelectionChange} label="Assign To User" placeholder="Search User" name="assignToUser">
+            </c-lookup>
+        </div>
+
+    <!-- 
         <lightning-input
             type="text"
             label="Assign From Username"
@@ -18,9 +31,12 @@
             onchange={handleOnChange}
             class="slds-var-p-around_small">
         </lightning-input>
+    -->
 
-        <lightning-button label="Cancel" onclick={handleOnCancel} class="slds-var-p-around_small"></lightning-button>
-        <lightning-button variant="brand" label="Copy Permission Sets" disabled={userMissingPermissions} onclick={handleOnClick} class="slds-var-p-around_small"></lightning-button>
+        <div class="slds-var-p-around_small">
+            <lightning-button label="Cancel" onclick={handleOnCancel} class="slds-var-p-right_medium"></lightning-button>
+            <lightning-button variant="brand" label="Copy Permission Sets" disabled={userMissingPermissions} onclick={handleCopy}></lightning-button>
+        </div>
         
         <template lwc:if={userMissingPermissions}>
             <div class="slds-var-p-top_small">
