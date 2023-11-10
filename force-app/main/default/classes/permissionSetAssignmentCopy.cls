@@ -1,10 +1,10 @@
 public with sharing class permissionSetAssignmentCopy {
     @AuraEnabled
     public static List<String> assignPermissionSets(List<String> assignFromUserIds, List<String> assignToUserIds){
-        List<String> listErrors;
+        List<String> listErrors = new List<String>();
 
-        Id assignFromId = assignFromUserIds.get(0);
-        Id assignToId   = assignToUserIds.get(0);
+        Id assignFromId = Id.valueOf(assignFromUserIds.get(0));
+        Id assignToId   = Id.valueOf(assignToUserIds.get(0));
 
         List<PermissionSetAssignment> psaList       = new List<PermissionSetAssignment>([SELECT PermissionSetId, PermissionSet.Label FROM PermissionSetAssignment WHERE AssigneeId = :assignFromId]);
         List<PermissionSetAssignment> psaNewList    = new List<PermissionSetAssignment>();
@@ -17,14 +17,16 @@ public with sharing class permissionSetAssignmentCopy {
         }
         
         Database.SaveResult[] srList = Database.insert(psaNewList, false);
-        for (Integer i=0; i < srList.size(); i++) {
-            if (srList.get(i).isSuccess() == false) {
-                // DML operation failed; get record and error
-                
+        for (Database.SaveResult sr : srList) {
+            if (!sr.isSuccess()) {
+                // if not successful, capture error inforamtion to return to the component
+                for (Database.Error err : sr.getErrors()) {
+                    listErrors.add(err.getStatusCode() + ': ' + err.getMessage());
+                }
             }
         }
 
-        return [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE AssigneeId = :assignToId];
+        return listErrors;
     }
 
     @AuraEnabled(cacheable=true scope='global')

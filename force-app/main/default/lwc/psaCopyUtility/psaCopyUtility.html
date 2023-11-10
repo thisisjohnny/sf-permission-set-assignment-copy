@@ -2,41 +2,43 @@
     <lightning-card title="Copy Permission Set Assignments" icon-name="standard:assignment">
         <div class="slds-var-p-around_small">
             <c-lookup
-                onsearch={handleSearch} onselectionchange={handleFromSelectionChange} label="Assign From User" placeholder="Search User" name="assignFromUser">
+                onsearch={handleSearch}
+                onselectionchange={handleFromSelectionChange}
+                label="Assign From User"
+                placeholder="Search User"
+                name="assignFromUser"
+                selection={initialSelection}
+                >
             </c-lookup>
         </div>
 
         <div class="slds-var-p-left_small slds-var-p-right_small slds-var-p-right_small">
             <c-lookup
-                onsearch={handleSearch} onselectionchange={handleToSelectionChange} label="Assign To User" placeholder="Search User" name="assignToUser">
+                onsearch={handleSearch}
+                onselectionchange={handleToSelectionChange}
+                label="Assign To User" 
+                placeholder="Search User" 
+                name="assignToUser"
+                selection={initialSelection}
+                >
             </c-lookup>
         </div>
 
-    <!-- 
-        <lightning-input
-            type="text"
-            label="Assign From Username"
-            name="assignFromUsername"
-            placeholder="myuser@example.demo"
-            value={assignFromUsername}
-            onchange={handleOnChange}
-            class="slds-var-p-around_small">
-        </lightning-input>
-        <lightning-input
-            type="text"
-            label="Assign To Username"
-            name="assignToUsername"
-            placeholder="newuser@example.demo"
-            value={assignToUsername}
-            onchange={handleOnChange}
-            class="slds-var-p-around_small">
-        </lightning-input>
-    -->
-
         <div class="slds-var-p-around_small">
-            <lightning-button label="Cancel" onclick={handleOnCancel} class="slds-var-p-right_medium"></lightning-button>
+            <lightning-button label="Clear" onclick={handleOnClear} class="slds-var-p-right_medium"></lightning-button>
             <lightning-button variant="brand" label="Copy Permission Sets" disabled={userMissingPermissions} onclick={handleCopy}></lightning-button>
         </div>
+
+        <template lwc:if={hasResults}>
+            <div class="slds-var-p-top_small">
+                <template for:each={copyUtilityResults} for:item="result">
+                    <div key={uniqueId} class="slds-notify slds-notify_alert slds-var-p-around_small" role="alert">
+                        <span class="slds-assistive-text">info</span>
+                        <h2>{result}</h2>
+                    </div>
+                </template>
+            </div>
+        </template>
         
         <template lwc:if={userMissingPermissions}>
             <div class="slds-var-p-top_small">
