@@ -11,7 +11,7 @@ This copy utility leverages the [sfdc-ui-lookup-lwc](https://github.com/pozil/sf
 
 ### Deploy this package
 
-1. Deploy this package to your Salesforce environment, use the [Salesforce DX Public Deployer](https://hosted-scratch.herokuapp.com/byoo?template=https://github.com/thisisjohnny/sf-permission-set-copy) and choose the option best for you
+1. Deploy this package to your Salesforce environment, use the [Salesforce DX Public Deployer](https://hosted-scratch.herokuapp.com/byoo?template=https://github.com/thisisjohnny/sf-permission-set-assignment-copy) and choose the option best for you 
 2. Assign the included permission set to any users needing access to the component
 3. Add the component to any Lightning Home Page, App Page, Tab, or Utility Bar
 4. Visit the page or utility bar item and enter in values for both the assign from user and assign to user
